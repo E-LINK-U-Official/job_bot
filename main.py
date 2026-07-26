@@ -2,47 +2,54 @@ import time
 from scraper import MotorNavegacion
 from ai_agent import CerebroLocal
 
-class AutomatedDataPipeline:
+class PipelineGlobalAbsoluto:
     def __init__(self):
-        print("==================================================")
-        print("[Pipeline] Iniciando Pipeline de Producción Real...")
-        print("==================================================")
+        print("==========================================================")
+        print("[Pipeline] SISTEMA GLOBAL DE BÚSQUEDA MULTIPLATFORMA REAL")
+        print("==========================================================")
         self.navegador = MotorNavegacion()
         self.analizador = CerebroLocal()
 
-    def ejecutar_workflow_real(self, enlace_vacante):
-        # 1. Extracts individual job dictionary matches
-        datos_encontrados = self.navegador.buscar_y_extraer_web(enlace_vacante)
-        time.sleep(1)
+    def ejecutar_rastreo_total(self):
+        # The ultimate multi-platform global search list
+        plataformas_objetivo = {
+            "LinkedIn (Filtro Mundial)": (
+                "https://linkedin.com?"
+                "keywords=Data%20Analyst%20AND%20%22Worldwide%22%20OR%20%22Remote%20Global%22"
+                "&location=Worldwide&f_WT=2&f_TPR=r2592000"
+            ),
+            "WeWorkRemotely (Data Global)": "https://weworkremotely.com",
+            "RemoteOK (Worldwide Index)": "https://remoteok.com"
+        }
         
-        print(f"\n[Pipeline] Se encontraron {len(datos_encontrados)} listados potenciales en la red.")
-        print("=================== REPORTE DE EMPLEOS REALES ===================")
+        matches_encontrados = 0
         
-        # 2. Iterates and parses each item natively
-        conteo_matches = 0
-        for item in datos_encontrados[:10]:  # Analyzes the first 10 live postings to test stability
-            titulo = item["titulo"]
-            enlace = item["enlace"]
+        for nombre, url in plataformas_objetivo.items():
+            print(f"\n📡 Conectando navegador con el feed de: {nombre}...")
+            datos_raw = self.navegador.buscar_y_extraer_web(url)
+            time.sleep(2)
             
-            # Checks profile compatibility using your technical keyword engine
-            resultado_analisis = self.analizador.analizar_puesto(titulo)
+            print(f"[Pipeline] Procesando {len(datos_raw)} listados extraídos de {nombre}...")
             
-            if "✓ Puesto Compatible" in resultado_analisis:
-                conteo_matches += 1
-                print(f"\n[MATCH #{conteo_matches}]")
-                print(f"📌 Posición: {titulo}")
-                print(f"🔗 Enlace Directo: {enlace}")
-                print("-" * 50)
-        
-        print(f"\n[Pipeline] Análisis finalizado. Encontrados {conteo_matches} puestos óptimos.")
-        print("=================================================================\n")
+            for item in datos_raw:
+                titulo = item["titulo"]
+                enlace = item["enlace"]
+                
+                # Check eligibility locally against your anti-senior, anti-scam rules
+                veredicto = self.analizador.analizar_puesto(titulo)
+                
+                if "✓ Puesto Compatible" in veredicto:
+                    matches_encontrados += 1
+                    print(f"\n🌍 [MATCH MUNDIAL REAL #{matches_encontrados}] via {nombre}")
+                    print(f"📌 Puesto/Empresa: {titulo[:150]}")
+                    print(f"🔗 Enlace de Aplicación: {enlace}")
+                    print("-" * 75)
+                    
+        print(f"\n=================== INFORME DE CIERRE DE SISTEMA ===================")
+        print(f"Análisis finalizado. Se aislaron {matches_encontrados} ofertas reales y cualificadas a nivel mundial.")
+        print("====================================================================\n")
         self.navegador.cerrar_navegador()
 
 if __name__ == "__main__":
-    pipeline = AutomatedDataPipeline()
-    
-    # NEW TARGET: We Work Remotely (Open-access engine directory)
-    url_production = "https://weworkremotely.com"
-    
-    pipeline.ejecutar_workflow_real(url_production)
-
+    pipeline = PipelineGlobalAbsoluto()
+    pipeline.ejecutar_rastreo_total()
