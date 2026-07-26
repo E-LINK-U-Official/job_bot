@@ -1,4 +1,3 @@
-cat << 'EOF' > README.md
 # Automated Web Data Extraction & Filtering Pipelinecat << 'EOF' > README.md
 # Automated Web Data Extraction & Filtering Pipeline
 
